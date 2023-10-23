@@ -1,3 +1,5 @@
+import { DUMMY_EVENTS } from "./mock";
+
 export function getFeaturedEvents() {
   return DUMMY_EVENTS.filter((event) => event.isFeatured);
 }
