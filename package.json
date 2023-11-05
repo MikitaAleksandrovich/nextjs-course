@@ -9,8 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "fs": "^0.0.1-security",
     "next": "^13.5.4",
     "react": "latest",
     "react-dom": "latest"
+  },
+  "browser": {
+    "fs": false,
+    "os": false,
+    "path": false
   }
 }
