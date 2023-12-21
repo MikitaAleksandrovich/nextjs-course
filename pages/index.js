@@ -1,14 +1,48 @@
-import EventList from "@/components/events/event-list";
-import { getFeaturedEvents } from "@/utils";
+import fs from "fs/promises";
+import Link from "next/link";
+import path from "path";
 
-const HomePage = () => {
-  const featuredEvents = getFeaturedEvents();
-
+const HomePage = (props) => {
+  const { products } = props;
   return (
     <div>
-      <EventList items={featuredEvents} />
+      <ul>
+        {products.map((product) => (
+          <Link href={`/${product.id}`}>
+            <li key={product.id}>{product.title}</li>
+          </Link>
+        ))}
+      </ul>
     </div>
   );
 };
+
+export async function getStaticProps() {
+  console.log("regenerate");
+  const filePath = path.join(process.cwd(), "data", "dummy-backend.json");
+  const jsonData = await fs.readFile(filePath);
+  const data = JSON.parse(jsonData);
+
+  if (!data) {
+    return {
+      redirect: {
+        destination: "/no-data",
+      },
+    };
+  }
+
+  if (data.products.length === 0) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      products: data.products,
+    },
+    revalidate: 10,
+  };
+}
 
 export default HomePage;
