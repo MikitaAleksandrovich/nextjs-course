@@ -1,19 +1,43 @@
 import EventList from "@/components/events/event-list";
 import { getFilteredEvents } from "@/helpers/api-utils.js";
+import Head from "next/head";
 
 const FilteredEventsPage = (props) => {
+  const pageHeadData = (
+    <Head>
+      <title>Filtered events</title>
+      <meta
+        name="description"
+        content={`All events for ${props.month}/${props.year}`}
+      />
+    </Head>
+  );
+
   if (props.hasError) {
-    return <div>Invalid filter, please, adjust your filters.</div>;
+    return (
+      <>
+        {pageHeadData}
+        <div>Invalid filter, please, adjust your filters.</div>
+      </>
+    );
   }
 
   if (!props.events || props.events.length === 0) {
-    return <div>No events found. Try to apply another filters</div>;
+    return (
+      <>
+        {pageHeadData}
+        <div>No events found. Try to apply another filters</div>
+      </>
+    );
   }
 
   return (
-    <div>
-      <EventList items={props.events} />
-    </div>
+    <>
+      {pageHeadData}
+      <div>
+        <EventList items={props.events} />
+      </div>
+    </>
   );
 };
 
@@ -50,6 +74,8 @@ export const getServerSideProps = async (context) => {
   return {
     props: {
       events: filteredEvents,
+      year: numYear,
+      month: numMonth,
     },
   };
 };

@@ -1,4 +1,5 @@
 import { getFeaturedEvents, getEventById } from "@/helpers/api-utils";
+import Head from "next/head";
 
 const EventDetailsPage = ({ event }) => {
   if (!event) {
@@ -6,10 +7,16 @@ const EventDetailsPage = ({ event }) => {
   }
 
   return (
-    <div>
-      <h1>{event.id}</h1>
-      <h1>{event.title}</h1>
-    </div>
+    <>
+      <Head>
+        <title>{event.title}</title>
+        <meta name="description" content={event.description} />
+      </Head>
+      <div>
+        <h1>{event.id}</h1>
+        <h1>{event.title}</h1>
+      </div>
+    </>
   );
 };
 
