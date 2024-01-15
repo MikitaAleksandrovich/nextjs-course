@@ -1,3 +1,4 @@
+import Comments from "@/components/input/comments";
 import { getFeaturedEvents, getEventById } from "@/helpers/api-utils";
 import Head from "next/head";
 
@@ -16,6 +17,7 @@ const EventDetailsPage = ({ event }) => {
         <h1>{event.id}</h1>
         <h1>{event.title}</h1>
       </div>
+      <Comments eventId={event.id} />
     </>
   );
 };
