@@ -1,4 +1,6 @@
-const handler = (req, res) => {
+import { MongoClient } from "mongodb";
+
+const handler = async (req, res) => {
   if (req.method === "POST") {
     const userEmail = req.body.email;
 
@@ -7,7 +9,16 @@ const handler = (req, res) => {
       return;
     }
 
-    console.log("user email", userEmail);
+    const client = await MongoClient.connect(
+      "mongodb+srv://nikita123:nikita123@cluster0.eafz2.mongodb.net/devcamp?retryWrites=true&w=majority"
+    );
+
+    const db = client.db();
+
+    await db.collection("email").insertOne({ email: userEmail });
+
+    client.close();
+
     res.status(200).json({ message: "Signed up!" });
   }
 };
