@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { connectToDB, insertDocument } from "@/helpers/db-utils";
 
 const handler = async (req, res) => {
   if (req.method === "POST") {
@@ -9,15 +9,22 @@ const handler = async (req, res) => {
       return;
     }
 
-    const client = await MongoClient.connect(
-     
-    );
+    let client;
 
-    const db = client.db();
+    try {
+      client = await connectToDB();
+    } catch (error) {
+      res.status(500).json({ message: "Connecting to database failed!" });
+      return;
+    }
 
-    await db.collection("email").insertOne({ email: userEmail });
-
-    client.close();
+    try {
+      await insertDocument(client, "newsletter", { email: userEmail });
+      client.close();
+    } catch (error) {
+      res.status(500).json({ message: "Inserting data failed!" });
+      return;
+    }
 
     res.status(200).json({ message: "Signed up!" });
   }
