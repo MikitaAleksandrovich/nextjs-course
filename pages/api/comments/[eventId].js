@@ -1,4 +1,8 @@
-import { connectToDB, getAllDocuments } from "@/helpers/db-utils";
+import {
+  connectToDB,
+  getAllDocuments,
+  insertDocument,
+} from "@/helpers/db-utils";
 
 const handler = async (req, res) => {
   const eventId = req.query.eventId;

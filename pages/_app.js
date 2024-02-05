@@ -1,17 +1,23 @@
 import Head from "next/head";
 import Layout from "@/components/layout/layput";
 import "../styles/globals.css";
+import { NotificationContextProvider } from "@/store/notification-context";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <>
-      <Head>
-        <title>Next js events</title>
-        <meta name="description" content="" />
-        <meta name="viewport" content="initial-scale=1.0 width=device-width" />
-      </Head>
-      <Component {...pageProps} />
-    </>
+    <NotificationContextProvider>
+      <Layout>
+        <Head>
+          <title>Next js events</title>
+          <meta name="description" content="" />
+          <meta
+            name="viewport"
+            content="initial-scale=1.0 width=device-width"
+          />
+        </Head>
+        <Component {...pageProps} />
+      </Layout>
+    </NotificationContextProvider>
   );
 }
 
